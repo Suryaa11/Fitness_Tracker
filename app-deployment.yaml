@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: fitness-tracker-app
+  namespace: fitness-ns
 spec:
   replicas: 2
   selector:
@@ -24,15 +25,35 @@ spec:
           # ✔ All configMap vars removed
           # ✔ Direct env variables added
           env:
-            - name: MONGODB_URI
-              value: "mongodb://mongodb-service:27017/fitness-tracker"
-            - name: PORT
-              value: "5000"
-            - name: HOST
-              value: "0.0.0.0"
-            - name: NODE_ENV
-              value: "production"
+          #   - name: MONGODB_URI
+          #     value: "mongodb://mongodb-service:27017/fitness-tracker"
+          #   - name: PORT
+          #     value: "5000"
+          #   - name: HOST
+          #     value: "0.0.0.0"
+          #   - name: NODE_ENV
+          #     value: "production"
             # Datadog APM (tracing) env variables
+            - name: MONGODB_URI
+              valueFrom:
+                configKeyRef:
+                    name: fitness-configmap
+                    key: MONGODB_URI
+            - name: PORT
+              valueFrom:
+                configKeyRef:
+                  name: fitness-configmap
+                  key: PORT
+            - name: HOST
+              valueFrom:
+                configKeyRef:
+                  name: fitness-configmap
+                  key: HOST
+            - name: NODE_ENV
+              valueFrom:
+                configKeyRef:
+                  name: fitness-configmap
+                  key: NODE_ENV
             - name: DD_AGENT_HOST
               valueFrom:
                 fieldRef:
@@ -51,10 +72,11 @@ apiVersion: v1
 kind: Service
 metadata:
   name: fitness-tracker-service
+  namespace: fitness-ns
 spec:
   selector:
     app: fitness-tracker-app
   ports:
   - port: 80
     targetPort: 5000
-  type: LoadBalancer
+  type: NodePort
