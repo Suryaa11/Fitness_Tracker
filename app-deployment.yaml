@@ -8,6 +8,11 @@ spec:
   selector:
     matchLabels:
       app: fitness-tracker-app
+  stratergy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
   template:
     metadata:
       labels:
@@ -22,6 +27,13 @@ spec:
           image: pulkit197/fitness_tracker-master-copy3-fitness-app:latest
           ports:
             - containerPort: 5000
+          resources:
+            requests: 
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "200m"
+              memory: "512Mi"
           # ✔ All configMap vars removed
           # ✔ Direct env variables added
           env:
