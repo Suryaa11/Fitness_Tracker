@@ -30,9 +30,13 @@ spec:
           limits:
             cpu: "200m"
             memory: "512Mi"
+        volumeMounts:
+          - name: mongodb-data
+            mountPath: /data/db 
       volumes:
         - name: mongodb-data
-          emptyDir: {}
+          emptyDir: 
+            sizeLimit: "512Mi"
 ---
 apiVersion: v1
 kind: Service
