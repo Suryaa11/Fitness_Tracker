@@ -31,13 +31,21 @@ spec:
             cpu: "200m"
             memory: "512Mi"
         volumeMounts:
-          - name: mongodb-data
-            mountPath: /data/db 
+          - mountPath: /data/db
+            name: mongo-data
       volumes:
-        - name: mongodb-data
-          hostPath:
-            path: /ust
-            type: DirectoryOrCreate
+        - name: mongo-data
+          persistentVolumeClaim: 
+            claimName: mongo-pvc
+
+      #   volumeMounts:
+      #     - name: mongodb-data
+      #       mountPath: /data/db 
+      # volumes:
+      #   - name: mongodb-data
+      #     hostPath:
+      #       path: /ust
+      #       type: DirectoryOrCreate
 ---
 apiVersion: v1
 kind: Service
