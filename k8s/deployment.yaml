@@ -4,7 +4,7 @@ metadata:
   name: fitness-tracker-app
   namespace: fitness-ns
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: fitness-tracker-app
@@ -29,11 +29,11 @@ spec:
             - containerPort: 5000
           resources:
             requests: 
-              cpu: "100m"
-              memory: "256Mi"
+              cpu: "50m"
+              memory: "64Mi"
             limits:
-              cpu: "200m"
-              memory: "512Mi"
+              cpu: "100m"
+              memory: "128Mi"
           # ✔ All configMap vars removed
           # ✔ Direct env variables added
           env:
