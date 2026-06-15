@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-scale-test
+  namespace: fitness-ns
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: node-scale-test
+  template:
+    metadata:
+      labels:
+        app: node-scale-test
+    spec:
+      containers:
+      - name: pause
+        image: registry.k8s.io/pause:3.9
+        resources:
+          requests:
+            cpu: "1000m"
+            memory: "512Mi"
