@@ -4,7 +4,7 @@ metadata:
   name: fitness-tracker-app
   namespace: fitness-ns
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: fitness-tracker-app
